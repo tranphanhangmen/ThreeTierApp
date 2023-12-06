@@ -1,0 +1,11 @@
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\Bussinesslogic.dll
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\Bussinesslogic.pdb
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\BussinessObject.dll
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\DataAccess.dll
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\BussinessObject.pdb
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\bin\Debug\DataAccess.pdb
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\obj\Debug\Bussinesslogic.csprojAssemblyReference.cache
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\obj\Debug\Bussinesslogic.csproj.CoreCompileInputs.cache
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\obj\Debug\Bussinesslogic.csproj.CopyComplete
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\obj\Debug\Bussinesslogic.dll
+D:\ThreeTierApp\ThreeTierApp\Bussinesslogic\obj\Debug\Bussinesslogic.pdb

@@ -1,0 +1,9 @@
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\DataAccess.dll
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\DataAccess.pdb
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\BussinessObject.dll
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\BussinessObject.pdb
+D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.csprojAssemblyReference.cache
+D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
+D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.csproj.CopyComplete
+D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.dll
+D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.pdb

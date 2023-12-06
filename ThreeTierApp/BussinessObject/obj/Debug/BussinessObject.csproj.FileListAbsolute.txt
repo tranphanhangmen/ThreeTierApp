@@ -1,0 +1,6 @@
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\bin\Debug\BussinessObject.dll
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\bin\Debug\BussinessObject.pdb
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\obj\Debug\BussinessObject.csprojAssemblyReference.cache
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\obj\Debug\BussinessObject.csproj.CoreCompileInputs.cache
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\obj\Debug\BussinessObject.dll
+D:\ThreeTierApp\ThreeTierApp\BussinessObject\obj\Debug\BussinessObject.pdb
