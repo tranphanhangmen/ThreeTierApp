@@ -13,15 +13,7 @@ namespace ThreeTierApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (txtsex.SelectedValue == "True")
-            {
-                txtsex.Text = "Male";
-            }
-            if (txtsex.SelectedValue == "False")
-            {
-                txtsex.Text = "Female";
-            }
-
+            
         }
 
         protected void BtnSave_Click(object sender, EventArgs e)

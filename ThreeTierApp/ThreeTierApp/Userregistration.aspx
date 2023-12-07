@@ -60,8 +60,7 @@
                     <td>                          
                           <asp:DropDownList ID="txtcountry" runat="server" OnSelectedIndexChanged="txtcountry_SelectedIndexChanged">
                               <asp:ListItem>USA</asp:ListItem>
-                              <asp:ListItem>VietNam</asp:ListItem>
-                              <asp:ListItem>Another</asp:ListItem>
+                              <asp:ListItem>VietNam</asp:ListItem>                              
                           </asp:DropDownList>
 
                     </td>  

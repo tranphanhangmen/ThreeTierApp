@@ -68,7 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Userregistration.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Webtable.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +81,13 @@
     </Compile>
     <Compile Include="Userregistration.aspx.designer.cs">
       <DependentUpon>Userregistration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Webtable.aspx.cs">
+      <DependentUpon>Webtable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Webtable.aspx.designer.cs">
+      <DependentUpon>Webtable.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
