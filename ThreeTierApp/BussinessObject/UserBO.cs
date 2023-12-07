@@ -13,6 +13,9 @@ namespace BussinessObject
         private string _Address;
         private string _EmailID;
         private string _Mobilenumber;
+        private string _country;
+        private string _sex;
+        private string _dbo;
         // Get and set values  
         public string Name
         {
@@ -56,6 +59,39 @@ namespace BussinessObject
             set
             {
                 _Mobilenumber = value;
+            }
+        }
+        public string country
+        {
+            get
+            {
+                return _country;
+            }
+            set
+            {
+                _country = value;
+            }
+        }
+        public string sex
+        {
+            get
+            {
+                return _sex;
+            }
+            set
+            {
+                _sex = value;
+            }
+        }
+        public string dbo
+        {
+            get
+            {
+                return _dbo;
+            }
+            set
+            {
+                _dbo = value;
             }
         }
     }

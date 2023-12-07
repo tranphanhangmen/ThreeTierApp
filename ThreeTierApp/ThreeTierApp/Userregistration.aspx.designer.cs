@@ -58,6 +58,33 @@ namespace ThreeTierApp {
         protected global::System.Web.UI.WebControls.TextBox txtmobile;
         
         /// <summary>
+        /// txtcountry control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList txtcountry;
+        
+        /// <summary>
+        /// txtsex control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList txtsex;
+        
+        /// <summary>
+        /// txtdbo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtdbo;
+        
+        /// <summary>
         /// BtnSave control.
         /// </summary>
         /// <remarks>

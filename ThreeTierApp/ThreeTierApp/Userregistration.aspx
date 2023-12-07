@@ -5,6 +5,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <style type="text/css">
+        #cars {
+            height: 27px;
+            width: 151px;
+        }
+        #txtcountry {
+            height: 19px;
+            width: 159px;
+        }
+        #txtdbo {
+            height: 22px;
+            width: 151px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -41,6 +55,36 @@
             <asp:TextBox ID="txtmobile" Width="150px" runat="server"></asp:TextBox>  
                     </td>  
                 </tr>  
+                <tr>  
+                    <td> Country   </td>  
+                    <td>                          
+                          <asp:DropDownList ID="txtcountry" runat="server" OnSelectedIndexChanged="txtcountry_SelectedIndexChanged">
+                              <asp:ListItem>USA</asp:ListItem>
+                              <asp:ListItem>VietNam</asp:ListItem>
+                              <asp:ListItem>Another</asp:ListItem>
+                          </asp:DropDownList>
+
+                    </td>  
+                </tr>
+                <tr>  
+                    <td> Sex   </td> 
+                    <td>                                                                 
+                        <asp:RadioButtonList ID="txtsex" runat="server" Width="154px">
+                            <asp:ListItem Value="True">Male</asp:ListItem>
+                            <asp:ListItem Value="False">Female</asp:ListItem>
+                        </asp:RadioButtonList>                        
+                    </td>
+                    <td>  
+                        &nbsp;</td>  
+                </tr>
+                <tr>  
+                    <td> Date of birth   </td>
+                        <label><td>
+                            <input type="date" id="txtdbo" name="dbo" runat="server" />
+                               </td></label>
+                    <td>  
+                        &nbsp;</td>  
+                </tr>
                 <tr>  
                     <td align="center" colspan="2">  
          <asp:Button ID="BtnSave" runat="server" Width="100px" Text="Save" OnClick="BtnSave_Click" />   
