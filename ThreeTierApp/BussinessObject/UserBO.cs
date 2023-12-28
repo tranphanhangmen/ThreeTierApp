@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BussinessObject
@@ -16,6 +17,18 @@ namespace BussinessObject
         private string _country;
         private string _sex;
         private string _dbo;
+
+        public UserBO()
+        {
+
+        }
+
+        public UserBO (string name, string address, string email)
+        {
+            _Name = name;
+            _Address = address;
+            _EmailID = email;
+        }
         // Get and set values  
         public string Name
         {
@@ -93,6 +106,53 @@ namespace BussinessObject
             {
                 _dbo = value;
             }
+        }
+
+        public string SexName { get {return _sex == "True" ? "Male" : "Female"; } }
+
+        public string DOBDisplay
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_dbo) ? "NA" : string.Format("{0:dd-MM-yyyy}", DateTime.Parse(dbo));
+            }
+        }
+
+        public int CheckValidation()
+        {
+            bool isValid = false;
+            // check email
+            string exprestion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            isValid = Regex.IsMatch(this.EmailID, exprestion);
+            if (isValid == true)
+            {
+                // check mobile number
+                string checkp = @"^([\+]?33[-]?|[0])?[1-9][0-9]{8}$";
+
+                isValid = Regex.IsMatch(this.Mobilenumber, checkp);
+                if (!isValid)
+                {
+                    //failed mobile
+                    return -2;
+                }
+            }
+            else
+            {
+                // failed email
+                return -1;
+            }
+            if(this.sex==null)
+            {
+                return -3;
+            }
+            if(this._dbo!=null)
+            {
+                return -4;
+            }
+
+
+            //success
+            return 0;
         }
     }
 }

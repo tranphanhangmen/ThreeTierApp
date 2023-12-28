@@ -22,8 +22,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="margin: 0px auto; padding-left: 370px; padding-right: 30px;overflow: auto;">  
-        <div>  
+        <div style="margin: 0px auto; padding-le padding-right: 30px;overflow: auto;">  
+        <div>  ft: 370px;
             <table style="width :50%">  
                 <tr>  
                     <td colspan="2" style="background-color: Green; height: 30px;color: White;" align="center">  
@@ -40,7 +40,7 @@
                     <td>  
                         Address </td>  
                     <td>  
-            <asp:TextBox ID="txAddress" Width="150px" runat="server"></asp:TextBox>  
+            <asp:TextBox ID="txtAddress" Width="150px" runat="server"></asp:TextBox>  
                     </td>  
                 </tr>  
                 <tr>  
@@ -86,9 +86,12 @@
                 </tr>
                 <tr>  
                     <td align="center" colspan="2">  
-         <asp:Button ID="BtnSave" runat="server" Width="100px" Text="Save" OnClick="BtnSave_Click" />   
+                        <asp:Button ID="BtnSave" runat="server" Width="100px" Text="Save" OnClick="BtnSave_Click" />                        
                     </td>  
-                </tr>  
+                </tr> 
+                <tr>
+                    <td colspan="2"><span style="color:red; font-size:50px;"><%=ErrorMessage%></span></td>
+                </tr>
             </table>  
         </div>  
     </div>  

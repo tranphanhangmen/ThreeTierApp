@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UserList.aspx" />
     <Content Include="Userregistration.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -75,6 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserList.aspx.designer.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Userregistration.aspx.cs">
       <DependentUpon>Userregistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
