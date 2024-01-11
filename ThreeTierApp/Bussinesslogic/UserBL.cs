@@ -1,10 +1,6 @@
-﻿using System;
+﻿using BussinessObject; // for acessing bussiness object class
+using Lab.DataAccess;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccess; // for acessing DataAccess class  
-using BussinessObject; // for acessing bussiness object class
 using System.Text.RegularExpressions;
 
 namespace Bussinesslogic

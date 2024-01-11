@@ -131,9 +131,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Bussiness\DBResult.cs" />
-    <Compile Include="Bussiness\DBAccount.cs" />
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AccountListModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -200,6 +198,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bussinesslogic\Bussinesslogic.csproj">
+      <Project>{EB6B4F68-D4C3-4728-BF8A-BBCF56FCB140}</Project>
+      <Name>Bussinesslogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BussinessObject\BussinessObject.csproj">
+      <Project>{1D361E2B-6385-4B18-92CE-25C2A21F3854}</Project>
+      <Name>BussinessObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

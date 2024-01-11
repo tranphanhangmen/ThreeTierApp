@@ -57,9 +57,9 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.AccountID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 &ensp;
-                @Html.ActionLink("Approve", "Approve", new { id = item.AccountID })
+                @Html.ActionLink("Approve", "Approve", new { id = item.Id })
             </td>
         </tr>
     }
@@ -68,7 +68,7 @@
 <div class="col-md-12">
     <div class="pagination">
         @*@Html.PagedListPager(Model, pageNo => Url.Action("AccountList", new { pageNo,pageSize=Model.PageSize }))*@
-        @Html.PagedListPager(new StaticPagedList<Lab.Models.Account>(Model.ListofModel , Model.PagingMetaData),
+        @Html.PagedListPager(new StaticPagedList<Lab.Models.AccountModel>(Model.ListofModel , Model.PagingMetaData),
                             page => Url.Action("AccountList", new { page }), PagedListRenderOptions.Classic)
 
     </div>

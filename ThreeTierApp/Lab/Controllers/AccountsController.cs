@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Bussinesslogic;
 using Lab.Models;
 using PagedList;
+using System;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Lab.Controllers
 {
     public class AccountsController : Controller
     {
+        private IAccountBL accountBL;
+        public AccountsController()
+        {
+            accountBL = new AccountBL();
+        }
+
         // GET: Accounts
         public ActionResult Index()
         {
@@ -18,16 +23,19 @@ namespace Lab.Controllers
         int pageSize = 3;
         public ActionResult AccountList(int? page=1)
         {
-            DBAccount db = new DBAccount();
             ModelState.Clear();
-            int totalRow = 0;
             int pageNumber = page ?? 1;
-            var result = db.GetAccount(pageNumber, pageSize, out totalRow);
-            var paging = new StaticPagedList<Account>(result, pageNumber, pageSize, totalRow);
+            var result = accountBL.GetAccount(pageNumber, pageSize, out int totalRow);
+
+            var resultModel = result.Select(s => new AccountModel {
+               Email = s.Email, Id = s.Id
+               , NickName = s.NickName, Mobile = s.Mobile, DOB = s.DOB, Sex = s.Sex, Status = s.Status
+            }).ToList();
+            var paging = new StaticPagedList<AccountModel>(resultModel, pageNumber, pageSize, totalRow);
 
             var accountList = new AccountListModel()
             {
-                ListofModel = result,
+                ListofModel = resultModel,
                 Page = pageNumber,
                 PagingMetaData = paging.GetMetaData()
             };
@@ -47,8 +55,7 @@ namespace Lab.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DBAccount sdb = new DBAccount();
-                    var result = sdb.AddAccount(smodel);
+                    var result = accountBL.AddAccount(smodel);
                     if (result.ErrorCode == 0)
                     {
                         ViewBag.Message = "Account Details Added Successfully";
@@ -92,8 +99,7 @@ namespace Lab.Controllers
         {
             try
             {
-                DBAccount ac = new DBAccount();
-                if (ac.DeleteAccount(id))
+                if (accountBL.DeleteAccount(id))
                 {
                     
                 }
@@ -108,8 +114,7 @@ namespace Lab.Controllers
         {
             try
             {
-                DBAccount sdb = new DBAccount();
-                if (sdb.UpdateStatus(id))
+                if (accountBL.UpdateStatus(id))
                 {
                 }
                 return RedirectToAction("AccountList");
@@ -122,7 +127,6 @@ namespace Lab.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            
             return View();
         }
         [HttpPost]
@@ -130,9 +134,8 @@ namespace Lab.Controllers
         {
             try
             {
-                DBAccount sdb = new DBAccount();
-                var dt = sdb.GetAccountByEmail(ac.Email);
-                if (dt.Password == ac.Password)
+                var dt = accountBL.GetAccountByEmail(ac.Email);
+                if (dt.Password == accountBL.CreateMD5(ac.Password))
                 {
                     Session["uid"] = ac.Email;
                     return RedirectToAction("Welcome");
@@ -152,9 +155,18 @@ namespace Lab.Controllers
         }
         public ActionResult Welcome()
         {
-            DBAccount sdb = new DBAccount();
-            var ck = sdb.GetAccountByEmail(Session["uid"].ToString());
-            return View(ck);
+            var s = accountBL.GetAccountByEmail(Session["uid"].ToString());
+            var accountModel = new AccountModel
+            {
+                Email = s.Email,
+                Id = s.Id,
+                NickName = s.NickName,
+                Mobile = s.Mobile,
+                DOB = s.DOB,
+                Sex = s.Sex,
+                Status = s.Status
+            };
+            return View(accountModel);
         }
         [HttpGet]
         public ActionResult ChangePassword()
@@ -169,8 +181,7 @@ namespace Lab.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DBAccount sdb = new DBAccount();
-                    var error = sdb.ChangePassword(Session["uid"].ToString(), ac.Password, ac.NewPassword);
+                    var error = accountBL.ChangePassword(Session["uid"].ToString(), ac.Password, ac.NewPassword);
                     if (error > 0)
                     {
                         ModelState.AddModelError("Password", "Invalid old password");

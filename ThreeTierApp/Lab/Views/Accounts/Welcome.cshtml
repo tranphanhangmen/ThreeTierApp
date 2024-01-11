@@ -1,4 +1,4 @@
-﻿@model Lab.Models.Account
+﻿@model Lab.Models.AccountModel
 
 @{
     ViewBag.Title = "Welcome";
@@ -52,7 +52,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink("Change Password", "ChangePassword", new { id = Model.AccountID })
+            @Html.ActionLink("Change Password", "ChangePassword", new { id = Model.Id })
         </dd>
     </dl>
 </div>

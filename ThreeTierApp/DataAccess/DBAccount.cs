@@ -1,21 +1,14 @@
-﻿using System;
+﻿using BussinessObject;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-namespace Lab.Models
+namespace Lab.DataAccess
 {
-    public class DBAccount
+    public class DBAccount: LabDBAccess
     {
-        private SqlConnection con;
-        private void connection()
-        {
-            string constring = ConfigurationManager.ConnectionStrings["mycon"].ToString();
-            con = new SqlConnection(constring);
-        }
+        
         public DBResult AddAccount(Account smodel)
         {
             DBResult result = new DBResult();
@@ -78,7 +71,7 @@ namespace Lab.Models
             foreach (DataRow dr in dt.Rows)
             {
                 accountlist.Add(new Account{
-                    AccountID = Convert.ToInt32(dr["AccountID"]),
+                    Id = Convert.ToInt32(dr["Id"]),
                     NickName = dr["Nickname"].ToString(),
                     Email = dr["Email"].ToString(),
                     Password = dr["Password"].ToString(),
@@ -138,7 +131,7 @@ namespace Lab.Models
 
             var account = new Account
             {
-                AccountID = Convert.ToInt32(dr["AccountID"]),
+                Id = Convert.ToInt32(dr["Id"]),
                 NickName = dr["Nickname"].ToString(),
                 Email = dr["Email"].ToString(),
                 Password = dr["Password"].ToString(),

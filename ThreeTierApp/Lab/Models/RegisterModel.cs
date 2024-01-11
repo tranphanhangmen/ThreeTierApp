@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Lab.Models
 {
-    public class RegisterModel : Account
+    public class RegisterModel : AccountModel
     {
     }
 }

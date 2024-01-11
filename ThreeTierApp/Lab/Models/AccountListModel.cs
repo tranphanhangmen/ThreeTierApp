@@ -10,7 +10,7 @@ namespace Lab.Models
     {
     
         public int? Page { get; set; }
-        public List<Account> ListofModel { get; set; }
+        public List<AccountModel> ListofModel { get; set; }
         public IPagedList PagingMetaData { get; set; }
     }
 }
