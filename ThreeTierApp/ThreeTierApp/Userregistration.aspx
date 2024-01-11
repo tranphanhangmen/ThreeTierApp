@@ -23,7 +23,7 @@
 <body>
     <form id="form1" runat="server">
         <div style="margin: 0px auto; padding-le padding-right: 30px;overflow: auto;">  
-        <div>  ft: 370px;
+        <div> 
             <table style="width :50%">  
                 <tr>  
                     <td colspan="2" style="background-color: Green; height: 30px;color: White;" align="center">  

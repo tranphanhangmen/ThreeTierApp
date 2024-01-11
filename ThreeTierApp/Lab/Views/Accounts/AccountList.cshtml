@@ -1,0 +1,75 @@
+﻿@model Lab.Models.AccountListModel
+    @using PagedList
+    @using PagedList.Mvc
+
+@{
+    ViewBag.Title = "AccountList";
+}
+
+<h2>AccountList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Register")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().NickName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Sex)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Status)
+        </th>
+        <th>&emsp;&emsp;Action</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListofModel)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NickName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+            <td>
+                @Html.Encode(item.Sex == 0 ? "Male" : item.Sex == 1 ? "Female" : "Other")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.AccountID })
+                &ensp;
+                @Html.ActionLink("Approve", "Approve", new { id = item.AccountID })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="col-md-12">
+    <div class="pagination">
+        @*@Html.PagedListPager(Model, pageNo => Url.Action("AccountList", new { pageNo,pageSize=Model.PageSize }))*@
+        @Html.PagedListPager(new StaticPagedList<Lab.Models.Account>(Model.ListofModel , Model.PagingMetaData),
+                            page => Url.Action("AccountList", new { page }), PagedListRenderOptions.Classic)
+
+    </div>
+</div>

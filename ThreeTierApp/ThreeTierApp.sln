@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussinesslogic", "Bussiness
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{34CAB510-A543-4377-84F0-48B765A99F73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab", "Lab\Lab.csproj", "{61067867-DC22-45E4-B699-7B8D7D661A53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{34CAB510-A543-4377-84F0-48B765A99F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34CAB510-A543-4377-84F0-48B765A99F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34CAB510-A543-4377-84F0-48B765A99F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61067867-DC22-45E4-B699-7B8D7D661A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61067867-DC22-45E4-B699-7B8D7D661A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61067867-DC22-45E4-B699-7B8D7D661A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61067867-DC22-45E4-B699-7B8D7D661A53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
