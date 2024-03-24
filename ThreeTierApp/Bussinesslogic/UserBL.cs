@@ -29,8 +29,6 @@ namespace Bussinesslogic
             {
                throw;
             }
-
-            return 0;
         }
         public List<UserBO> GetUserregisrationBL()
         {

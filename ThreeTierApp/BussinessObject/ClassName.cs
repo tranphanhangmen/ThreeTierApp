@@ -12,5 +12,9 @@ namespace BussinessObject
         //TeacherId
         //Year
         //CreatedDate
+        public string Name { get; set; }
+        public int TeacherId { get; set; }
+        public DateTime Year { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

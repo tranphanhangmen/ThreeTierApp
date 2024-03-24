@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BussinessObject
 {
@@ -15,5 +16,7 @@ namespace BussinessObject
 
         public int YearOfEducation { get; set; }
         public DateTime JoinDate { get; set; }
+
+        public override List<WorkItem> Works { get; set; }
     }
 }

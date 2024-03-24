@@ -46,9 +46,16 @@
     <Compile Include="ClassName.cs" />
     <Compile Include="DBResult.cs" />
     <Compile Include="LabObject.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocialProfile.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentClass.cs" />
     <Compile Include="Teacher.cs" />
+    <Compile Include="TeacherGroup.cs" />
+    <Compile Include="TestOOP.cs" />
     <Compile Include="UserBO.cs" />
+    <Compile Include="WorkItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
