@@ -6,12 +6,12 @@ namespace Bussinesslogic
 {
     public interface ITeacherBL
     {
-        List<ClassName> GetClassList(int teacherId);
+        List<Class> GetClassList(int teacherId);
     }
 
     public class TeacherBL : AccountBL, ITeacherBL
     {
-        public List<ClassName> GetClassList(int teacherId)
+        public List<Class> GetClassList(int teacherId)
         {
             throw new NotImplementedException();
         }

@@ -1,0 +1,65 @@
+﻿@model Lab.Models.TeacherListModel
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "TeacherList";
+}
+
+<h2>TeacherList</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().NickName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListofModel.First().Name)
+        </th>
+
+
+        <th>&emsp;&emsp;Action</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListofModel)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NickName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            &ensp;
+            @Html.ActionLink("ReMove", "ReMove", new { id = item.Id })
+        </td>
+    </tr>
+    }
+
+</table>
+<div class="col-md-12">
+    <div class="pagination">
+        @*@Html.PagedListPager(Model, pageNo => Url.Action("AccountList", new { pageNo,pageSize=Model.PageSize }))*@
+        @Html.PagedListPager(new StaticPagedList<Lab.Models.TeacherModel>(Model.ListofModel , Model.PagingMetaData),
+                            page => Url.Action("TeacherList", new { page }), PagedListRenderOptions.Classic)
+
+    </div>
+</div>

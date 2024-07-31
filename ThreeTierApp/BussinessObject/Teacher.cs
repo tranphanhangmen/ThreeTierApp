@@ -18,5 +18,6 @@ namespace BussinessObject
         public DateTime JoinDate { get; set; }
 
         public override List<WorkItem> Works { get; set; }
+        public string Name { get; set; }
     }
 }

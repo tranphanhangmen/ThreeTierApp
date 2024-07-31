@@ -1,9 +1,12 @@
 ﻿using Bussinesslogic;
+using BussinessObject;
 using Lab.Models;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Lab.Controllers
 {
@@ -20,28 +23,60 @@ namespace Lab.Controllers
         {
             return View();
         }
-        int pageSize = 3;
-        public ActionResult AccountList(int? page=1)
+        int pageSize = 10;
+        //public ActionResult AccountList(int? page = 1)
+        //{
+        //    ModelState.Clear();
+        //    int pageNumber = page ?? 1;
+        //    var result = accountBL.GetAccount(pageNumber, pageSize, out int totalRow);
+
+        //    var resultModel = result.Select(s => new AccountModel
+        //    {
+        //        Email = s.Email,
+        //        Id = s.Id
+        //       ,
+        //        NickName = s.NickName,
+        //        Mobile = s.Mobile,
+        //        DOB = s.DOB,
+        //        Sex = s.Sex,
+        //        Status = s.Status,
+        //        Role = s.Role
+        //    }).ToList();
+        //    var paging = new StaticPagedList<AccountModel>(resultModel, pageNumber, pageSize, totalRow);
+
+        //    var accountList = new AccountListModel()
+        //    {
+        //        ListofModel = resultModel,
+        //        Page = pageNumber,
+        //        PagingMetaData = paging.GetMetaData()
+        //    };
+
+        //    return View(accountList);
+        //}
+
+
+        public ActionResult AccountList(int? page = 1)
         {
-            ModelState.Clear();
+
             int pageNumber = page ?? 1;
             var result = accountBL.GetAccount(pageNumber, pageSize, out int totalRow);
-
-            var resultModel = result.Select(s => new AccountModel {
-               Email = s.Email, Id = s.Id
-               , NickName = s.NickName, Mobile = s.Mobile, DOB = s.DOB, Sex = s.Sex, Status = s.Status
-            }).ToList();
-            var paging = new StaticPagedList<AccountModel>(resultModel, pageNumber, pageSize, totalRow);
-
-            var accountList = new AccountListModel()
-            {
-                ListofModel = resultModel,
-                Page = pageNumber,
-                PagingMetaData = paging.GetMetaData()
-            };
-
+            var accountList = new AccountListModel(){};
             return View(accountList);
         }
+        public JsonResult ApiAccountList(int? page = 1)
+        {
+            int pageNumber = page ?? 1;
+
+
+            // Update this method to return the total number of records
+            var result = accountBL.GetAccount(pageNumber, pageSize, out int totalRow);
+
+            // Calculate total pages
+            int totalPages = (int)Math.Ceiling((double)totalRow / pageSize);
+
+            return Json(new { data = result, totalPages }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult Register()
         {
@@ -88,7 +123,7 @@ namespace Lab.Controllers
                 {
                     return View();
                 }
-           
+
             }
             catch
             {
@@ -101,7 +136,7 @@ namespace Lab.Controllers
             {
                 if (accountBL.DeleteAccount(id))
                 {
-                    
+
                 }
                 return RedirectToAction("AccountList");
             }
@@ -135,9 +170,11 @@ namespace Lab.Controllers
             try
             {
                 var dt = accountBL.GetAccountByEmail(ac.Email);
-                if (dt.Password == accountBL.CreateMD5(ac.Password))
+                //if (dt.Password == accountBL.CreateMD5(ac.Password))
+                if (dt.Password != null)
                 {
-                    Session["uid"] = ac.Email;
+                    ac.Role = dt.Role;
+                    Session["login"] = ac;
                     return RedirectToAction("Welcome");
                 }
                 else
@@ -146,16 +183,18 @@ namespace Lab.Controllers
                     ModelState.Clear();
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 ViewBag.Showmsg = ex.Message;
             }
-            
+
             return View();
         }
         public ActionResult Welcome()
         {
-            var s = accountBL.GetAccountByEmail(Session["uid"].ToString());
+            var login = HttpContext.Session["login"] as LoginModel;
+
+            var s = accountBL.GetAccountByEmail(login.Email);
             var accountModel = new AccountModel
             {
                 Email = s.Email,
@@ -201,5 +240,99 @@ namespace Lab.Controllers
             }
         }
 
-    }
+        [AuthorizeDemo(Roles: "admin,teacher")]
+        public ActionResult StudentList(string search1, string search2, string search3, int? page = 1)
+        {
+            ModelState.Clear();
+            int pageNumber = page ?? 1;
+            var result = accountBL.StudentList(pageNumber, pageSize, out int totalRow, search1, search2, search3);
+
+            var resultModel = result.Select(s => new StudentModel
+            {
+                Email = s.Email,
+                Id = s.Id,
+                NickName = s.NickName,
+                Mobile = s.Mobile,
+                Name = s.Name
+            }).ToList();
+            var paging = new StaticPagedList<StudentModel>(resultModel, pageNumber, pageSize, totalRow);
+
+            var studentList = new StudentListModel()
+            {
+                ListofModel = resultModel,
+                Page = pageNumber,
+                PagingMetaData = paging.GetMetaData(),
+                search2 = "",
+                classCate = accountBL.GetClassCate(),
+                search3 = "",
+                ClassName = accountBL.GetClassName()
+
+            };
+
+            return View(studentList);
+        }
+
+        [AuthorizeDemo(Roles:"admin")]
+        public ActionResult TeacherList(int? page = 1)
+        {
+            ModelState.Clear();
+            int pageNumber = page ?? 1;
+            var result = accountBL.TeacherList(pageNumber, pageSize, out int totalRow);
+
+            var resultModel = result.Select(s => new TeacherModel
+            {
+                Email = s.Email,
+                Id = s.Id,
+                NickName = s.NickName,
+                Mobile = s.Mobile,
+                Name = s.Name
+            }).ToList();
+            var paging = new StaticPagedList<TeacherModel>(resultModel, pageNumber, pageSize, totalRow);
+
+            var teacherList = new TeacherListModel()
+            {
+                ListofModel = resultModel,
+                Page = pageNumber,
+                PagingMetaData = paging.GetMetaData()
+            };
+
+            return View(teacherList);
+        }
+
+        public JsonResult ApiStudentList(string search1, string search2, string search3, int? page = 1)
+        {
+            int pageNumber = page ?? 1;
+
+
+            // Update this method to return the total number of records
+            var result = accountBL.StudentList(pageNumber, pageSize, out int totalRow, search1, search2, search3);
+
+            // Calculate total pages
+            int totalPages = (int)Math.Ceiling((double)totalRow / pageSize);
+
+            return Json(new { data = result, totalPages }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult StudentList1(string search1, string search2, string search3, int? page = 1)
+        {
+            
+            int pageNumber = page ?? 1;
+            var result = accountBL.StudentList(pageNumber, pageSize, out int totalRow, search1, search2, search3);
+
+           
+            var studentList = new StudentListModel()
+            {
+                
+                search2 = "",
+                classCate = accountBL.GetClassCate(),
+                search3 = "",
+                ClassName = accountBL.GetClassName()
+
+            };
+
+            return View(studentList);
+        }
+        
+    }   
 }

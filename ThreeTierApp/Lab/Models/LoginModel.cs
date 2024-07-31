@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Lab.Models
 {
+    [Serializable]
     public class LoginModel
     {
         [StringLength(100)]
@@ -19,5 +20,7 @@ namespace Lab.Models
         [Required]
         //[DataType(DataType.Password)]       
         public string Password { get; set; }
+
+        public string Role { get; set; }
     }
 }

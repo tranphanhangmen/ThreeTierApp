@@ -7,3 +7,5 @@ D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileI
 D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.csproj.CopyComplete
 D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.dll
 D:\ThreeTierApp\ThreeTierApp\DataAccess\obj\Debug\DataAccess.pdb
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\PagedList.dll
+D:\ThreeTierApp\ThreeTierApp\DataAccess\bin\Debug\PagedList.xml

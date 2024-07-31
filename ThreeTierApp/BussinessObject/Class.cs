@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BussinessObject
 {
-    public class ClassName : LabObject
+    public class Class : LabObject
     {
         //Name
         //TeacherId

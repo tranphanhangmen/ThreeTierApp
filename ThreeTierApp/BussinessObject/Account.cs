@@ -40,6 +40,7 @@ namespace BussinessObject
 
         [StringLength(10)]       
         public string Status { get; set; }
+        public string Role { get; set; }
 
         public virtual List<WorkItem> Works { get; set; }
     }

@@ -1,0 +1,224 @@
+﻿@model Lab.Models.StudentListModel
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "StudentList";
+}
+
+<script>
+    function onClassNameChange(e) {
+
+        var cateName = $(e).val().substring(0, 7);
+        $("#search2").val(cateName);
+    }
+
+    function onClassCateChange(e) {
+
+        var ClassName = $(e).val().concat(".1");
+        $("#search3").val(ClassName);
+    }
+</script>
+
+<style>
+    .num1 {
+        float: left;width: 100%;
+        background-color: whitesmoke;
+        padding: 10px;
+    }
+
+    div.num2 div {
+        float: left;
+        font-weight: bold;
+        color: darkblue;
+        display:inline;
+        margin: 10px;
+
+    }
+    .num2 {
+        float: left;
+        width: 100%;
+        background-color: white;
+        background-color: whitesmoke;
+    }
+    .sl1, .sl2,.input{
+        height: 34px;
+        width: 200px;
+    }
+
+    .table,tr,th,td {
+        border: 2px solid black;
+
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+    .tr1{
+        background-color:burlywood;
+    }
+    .tr2:nth-child(even) {
+        background-color:aquamarine;
+    }
+    .tr2:hover td {
+        background-color:chartreuse;
+    }
+    .hr{
+        margin:0px;
+    }
+    
+</style>
+
+<script lang="en" type="text/javascript">
+    function getStudentList() {
+        var reqParam = {
+            "search1": $("#search1").val(),
+            "search2": $("#search2").val(),
+            "search3": $("#search3").val()
+        };
+        //alert(reqParam);
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '/Accounts/ApiStudentList',
+            context: document.body,
+            data: reqParam,
+            success: function (result) {
+                $("#tblStudent tr td").remove();
+                result.forEach(function (s) {
+                    $("#tblStudent").append('<tr class="tr2"><td>' + s.NickName + '</td><td>' + s.Email + '</td><td>' + s.Mobile + '</td><td>' + s.Name + '</td><td><a href="/Accounts/Edit/' + s.Id + '">Edit</a>&nbsp;&nbsp;<a href="/Accounts/Remove/' + s.Id +'">Remove</a></td></tr>');
+                });
+            },
+            error: function (xhr) {
+                //debugger;
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    }
+    
+    
+</script>
+
+
+<form action="/accounts/StudentList" method="post">
+
+    <div class="Lap">
+        <div class="num1">
+            <div>Student Filter</div>
+            <hr class="hr" />
+        </div>
+
+        <div class="num2">
+            <div>Nick Name</div>
+            <div class="input">
+                @Html.EditorFor(model => model.search1, new { htmlAttributes = new { @class = "form-control", @name = "search1", @id = "search1" } })
+                @Html.ValidationMessageFor(model => model.search1, "", new { @class = "text-danger" })
+            </div>
+            <div>Class Category</div>
+            <div>
+                <select class="sl1" name="search2" id="search2" onchange="onClassCateChange(this);">
+                    @foreach (var item in Model.classCate)
+                    {
+                        if (item == Model.search2)
+                        {
+
+                            <option selected> @item </option>
+                        }
+                        else
+                        {
+                            <option> @item </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div>Class Name</div>
+            <div>
+                <select class="sl2" name="search3" id="search3" onchange="onClassNameChange(this);">
+                    @foreach (var item in Model.ClassName)
+                    {
+                        if (item == Model.search3)
+                        {
+                            <option selected> @item </option>
+                        }
+                        else
+                        {
+                            <option> @item </option>
+                        }
+                    }
+                    }
+                </select>
+            </div>
+            <div>
+                <button class="sm" type="submit">Submit</button>
+                <input type="button" id="bt1" value="Button" onclick="getStudentList();"/>
+            </div>
+        </div>
+    </div>
+
+    <table class="table" id="tblStudent">
+            <tr class=" tr1">
+                <th>
+                    @Html.DisplayNameFor(model => model.ListofModel.First().NickName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListofModel.First().Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListofModel.First().Mobile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListofModel.First().Name)
+                </th>
+
+                <th>Action</th>
+            </tr>
+
+            @if (Model.ListofModel != null)
+            {
+                foreach (var item in Model.ListofModel)
+                {
+                <tr class="tr2">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NickName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        &ensp;
+                        @Html.ActionLink("ReMove", "ReMove", new { id = item.Id })
+                    </td>
+                </tr>
+                }
+            }
+
+        </table>
+
+        <div class="col-md-12">
+            <div class="pagination">
+                @*@Html.PagedListPager(Model, pageNo => Url.Action("AccountList", new { pageNo,pageSize=Model.PageSize }))*@
+                @if (Model.PagingMetaData != null) {
+                    Html.PagedListPager(new StaticPagedList<Lab.Models.StudentModel>(Model.ListofModel, Model.PagingMetaData),
+                                    page => Url.Action("StudentList", new { page }), PagedListRenderOptions.Classic);
+                                    }
+            </div>
+        </div>
+    @*<script>
+        $(function () {
+            getStudentList();
+        });
+       
+    </script>*@
+    </form>

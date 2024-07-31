@@ -20,6 +20,14 @@ namespace Bussinesslogic
         int ChangePassword(string email, string password, string newpw);
 
         string CreateMD5(string input);
+        List<Student> StudentList(int pageNo, int pageSize, out int totalRow,string search1, string search2, string search3);
+        List<Teacher> TeacherList(int pageNo, int pageSize, out int totalRow);
+
+        ///////////////////
+        ///
+        List<string> GetClassCate();
+
+        List<string> GetClassName();
     }
 
     public class AccountBL : IAccountBL
@@ -88,6 +96,28 @@ namespace Bussinesslogic
                 // }
                 // return sb.ToString();
             }
+        }
+
+        public List<Student> StudentList(int pageNo, int pageSize, out int totalRow,string search1,string search2,string search3)
+        {
+            return dbAccount.StudentList(pageNo, pageSize, out totalRow,search1,search2,search3);
+        }
+
+       
+
+        public List<Teacher> TeacherList(int pageNo, int pageSize, out int totalRow)
+        {
+            return dbAccount.TeacherList(pageNo, pageSize, out totalRow);
+        }
+
+        public List<string> GetClassCate()
+        {
+            return dbAccount.GetClassCate();
+        }
+
+        public List<string> GetClassName()
+        {
+            return dbAccount.GetClassName();
         }
     }
 }

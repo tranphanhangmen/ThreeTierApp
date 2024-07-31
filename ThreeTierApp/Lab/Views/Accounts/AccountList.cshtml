@@ -1,6 +1,5 @@
 ﻿@model Lab.Models.AccountListModel
-    @using PagedList
-    @using PagedList.Mvc
+
 
 @{
     ViewBag.Title = "AccountList";
@@ -11,65 +10,170 @@
 <p>
     @Html.ActionLink("Create New", "Register")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().NickName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().Mobile)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().DOB)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().Sex)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListofModel.First().Status)
-        </th>
-        <th>&emsp;&emsp;Action</th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.ListofModel)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NickName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DOB)
-            </td>
-            <td>
-                @Html.Encode(item.Sex == 0 ? "Male" : item.Sex == 1 ? "Female" : "Other")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                &ensp;
-                @Html.ActionLink("Approve", "Approve", new { id = item.Id })
-            </td>
-        </tr>
+<style>
+
+    .sl1, .sl2, .input {
+        height: 34px;
+        width: 200px;
     }
 
-</table>
-<div class="col-md-12">
-    <div class="pagination">
-        @*@Html.PagedListPager(Model, pageNo => Url.Action("AccountList", new { pageNo,pageSize=Model.PageSize }))*@
-        @Html.PagedListPager(new StaticPagedList<Lab.Models.AccountModel>(Model.ListofModel , Model.PagingMetaData),
-                            page => Url.Action("AccountList", new { page }), PagedListRenderOptions.Classic)
+    .table, tr, th, td {
+        border: 2px solid black;
+    }
 
-    </div>
-</div>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+
+    .tr1 {
+        background-color: burlywood;
+    }
+
+    .tr2:nth-child(even) {
+        background-color: aquamarine;
+    }
+
+    .tr2:hover td {
+        background-color: chartreuse;
+    }
+
+    .hr {
+        margin: 0px;
+    }
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+    }
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+</style>
+<table class="table" id="tblStudent">
+    <tr class=" tr1">
+        <th>
+            NickName
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Mobile
+        </th>
+        <th>
+            DOB
+        </th>
+        <th>
+            Sex
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Role
+        </th>
+        <th>Action</th>
+    </tr>
+</table>
+<div>Page</div>
+<div id="paginationControls" class="pagination"></div>
+
+<script lang="en" type="text/javascript">
+    var currentPage = pageNumber;
+    function getAccountList() {
+        var reqParam = {
+            "page": currentPage
+        };
+
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '/Accounts/ApiAccountList',
+            context: document.body,
+            data: reqParam,
+            success: function (result) {
+                $("#tblStudent tr td").remove(); // Clear existing data
+
+                // Insert new data
+                result.data.forEach(function (s) {
+                    function convertAjaxDate(ajaxDate) {
+                        // Extract the milliseconds from the string
+                        const milliseconds = parseInt(ajaxDate.replace(/\/Date\((\-?\d+)\)\//, '$1'), 10);
+
+                        // Create a new Date object
+                        const date = new Date(milliseconds);
+
+                        // Format the date as desired
+                        // This example formats the date as 'YYYY-MM-DD'
+                        const formattedDate = date.toISOString().slice(0, 10).replace('T', ' ');
+
+                        return formattedDate;
+                    }
+                    $("#tblStudent").append('<tr class="tr2"><td>' + s.NickName + '</td><td>' + s.Email + '</td><td>' + s.Mobile + '</td><td>' + convertAjaxDate(s.DOB) + '</td><td>' + (s.Sex == 0 ? "Male" : s.Sex == 1 ? "Female" : "Other") + '</td><td>' + s.Status + '</td><td>' + s.Role + '</td><td><a href="/Accounts/Delete/' + s.Id + '">Delete</a>&nbsp;&nbsp;<a href="/Accounts/Approve/' + s.Id + '">Approve</a></td></tr>');
+                });
+
+                // Update pagination controls
+                totalPages = result.totalPages; // Assuming the API returns total pages
+                updatePaginationControls(); // Call to update pagination
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    }
+
+    function updatePaginationControls() {
+        var paginationControls = $("#paginationControls");
+        paginationControls.empty(); // Clear existing pagination controls
+
+        const visiblePageCount = 5; // Number of pages to show before and after the current page
+        for (let i = 1; i <= totalPages; i++) {
+            let pageLink = $('<a href="#" class="page-link">' + i + '</a>');
+
+            // Display the first page, last page, and a limited range of pages around the current page
+            if (i == 1 || i == totalPages || (i >= currentPage - visiblePageCount && i <= currentPage + visiblePageCount)) {
+                if (i == currentPage) {
+                    pageLink.addClass('active'); // Add active class for current page
+                }
+                pageLink.on('click', function (e) {
+                    e.preventDefault();
+                    currentPage = i; // Update current page
+                    getAccountList(); // Fetch new data
+                });
+                paginationControls.append(pageLink); // Add the link to the controls
+            } else if (i == currentPage - visiblePageCount - 1 || i == currentPage + visiblePageCount + 1) {
+               
+                paginationControls.append();
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        getAccountList(); // Initial call to load data
+    });
+</script>
+<script>
+    $(function () {
+        getAccountList();
+    });
+
+</script>

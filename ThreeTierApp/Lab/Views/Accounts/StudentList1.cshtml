@@ -1,0 +1,244 @@
+﻿@model Lab.Models.StudentListModel
+
+@{
+    ViewBag.Title = "StudentList1";
+}
+
+<script>
+    function onClassNameChange(e) {
+
+        var cateName = $(e).val().substring(0, 7);
+        $("#search2").val(cateName);
+    }
+
+    function onClassCateChange(e) {
+
+        var ClassName = $(e).val().concat(".1");
+        $("#search3").val(ClassName);
+    }
+</script>
+
+<style>
+    .num1 {
+        float: left;
+        width: 100%;
+        background-color: whitesmoke;
+        padding: 10px;
+    }
+
+    div.num2 div {
+        float: left;
+        font-weight: bold;
+        color: darkblue;
+        display: inline;
+        margin: 10px;
+    }
+
+    .num2 {
+        float: left;
+        width: 100%;
+        background-color: white;
+        background-color: whitesmoke;
+    }
+
+    .sl1, .sl2, .input {
+        height: 34px;
+        width: 200px;
+    }
+
+    .table, tr, th, td {
+        border: 2px solid black;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+
+    .tr1 {
+        background-color: burlywood;
+    }
+
+    .tr2:nth-child(even) {
+        background-color: aquamarine;
+    }
+
+    .tr2:hover td {
+        background-color: chartreuse;
+    }
+
+    .hr {
+        margin: 0px;
+    }
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+     background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+</style>
+
+<script lang="en" type="text/javascript">
+    var currentPage = pageNumber; 
+    function getStudentList() {
+        var reqParam = {
+            "search1": $("#search1").val(),
+            "search2": $("#search2").val(),
+            "search3": $("#search3").val(),
+            "page": currentPage 
+        };
+
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '/Accounts/ApiStudentList',
+            context: document.body,
+            data: reqParam,
+            success: function (result) {
+                $("#tblStudent tr td").remove(); // Clear existing data
+                
+                // Insert new data
+                result.data.forEach(function (s) {
+                    $("#tblStudent").append('<tr class="tr2"><td>' + s.NickName + '</td><td>' + s.Email + '</td><td>' + s.Mobile + '</td><td>' + s.Name + '</td><td><a href="/Accounts/Edit/' + s.Id + '">Edit</a>&nbsp;&nbsp;<a href="/Accounts/Remove/' + s.Id + '">Remove</a></td></tr>');
+                });
+
+                // Update pagination controls
+                totalPages = result.totalPages; // Assuming the API returns total pages
+                updatePaginationControls(); // Call to update pagination
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    }
+
+    function updatePaginationControls() {
+        var paginationControls = $("#paginationControls");
+        paginationControls.empty(); // Clear existing pagination controls
+        for (let i = 1; i <= totalPages; i++) {
+            let pageLink = $('<a href="#" class="page-link">' + i + '</a>');
+            if (i === currentPage) {
+                pageLink.addClass('active'); // Add active class for current page
+            }
+            pageLink.on('click', function (e) {
+                e.preventDefault();
+                currentPage = i; // Update current page
+                getStudentList(); // Fetch new data
+            });
+            paginationControls.append(pageLink); // Add the link to the controls
+        }   
+    }
+
+    $(document).ready(function () {
+        getStudentList(); // Initial call to load data
+    });
+</script>
+
+
+
+<form action="/accounts/StudentList1" method="post">
+
+    <div class="Lap">
+        <div class="num1">
+            <div>Student Filter</div>
+            <hr class="hr" />
+        </div>
+
+        <div class="num2">
+            <div>Nick Name</div>
+            <div class="input">
+                @Html.EditorFor(model => model.search1, new { htmlAttributes = new { @class = "form-control", @name = "search1", @id = "search1" } })
+                @Html.ValidationMessageFor(model => model.search1, "", new { @class = "text-danger" })
+            </div>
+            <div>Class Category</div>
+            <div>
+                <select class="sl1" name="search2" id="search2" onchange="onClassCateChange(this);">
+                    @foreach (var item in Model.classCate)
+                    {
+                        if (item == Model.search2)
+                        {
+
+                            <option selected> @item </option>
+                        }
+                        else
+                        {
+                            <option> @item </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div>Class Name</div>
+            <div>
+                <select class="sl2" name="search3" id="search3" onchange="onClassNameChange(this);">
+                    @foreach (var item in Model.ClassName)
+                    {
+                        if (item == Model.search3)
+                        {
+                            <option selected> @item </option>
+                        }
+                        else
+                        {
+                            <option> @item </option>
+                        }
+                    }
+                    }
+                </select>
+            </div>
+            <div>
+
+                <input type="button" id="bt1" value="Button" onclick="getStudentList();" />
+            </div>
+        </div>
+    </div>
+
+    <table class="table" id="tblStudent">
+        <tr class=" tr1">
+            <th>
+                NickName
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Mobile
+            </th>
+            <th>
+                ClassName
+            </th>
+
+            <th>Action</th>
+        </tr>
+
+
+    </table>
+
+
+
+    <div id="paginationControls" class="pagination"></div>
+    <script>
+        $(function () {
+            getStudentList();
+        });
+
+    </script>
+</form>

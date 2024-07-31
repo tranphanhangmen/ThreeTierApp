@@ -23,6 +23,7 @@ namespace Lab.DataAccess
             cmd.Parameters.AddWithValue("@DOB", smodel.DOB);
             cmd.Parameters.AddWithValue("@Sex", smodel.Sex);
             cmd.Parameters.AddWithValue("@Status", smodel.Status);
+            cmd.Parameters.AddWithValue("@Role", smodel.Role);
 
             // output
             cmd.Parameters.Add("@Error", SqlDbType.VarChar, 100);
@@ -79,6 +80,7 @@ namespace Lab.DataAccess
                     DOB = dr.Field<DateTime?>("DOB"),
                     Sex = Convert.ToInt32(dr["Sex"]),
                     Status = dr["Status"].ToString(),
+                    Role=dr["Role"].ToString(),
                 });
                 
             }
@@ -139,6 +141,7 @@ namespace Lab.DataAccess
                 DOB = dr.Field<DateTime?>("DOB"),
                 Sex = Convert.ToInt32(dr["Sex"]),
                 Status = dr["Status"].ToString(),
+                Role = dr["Role"].ToString(),
             };
 
 
@@ -158,7 +161,125 @@ namespace Lab.DataAccess
             var error = (int)cmd.Parameters["@Error"].Value;
             return error;
         }
-        
+        public List<Student> StudentList(int pageNo, int pageSize, out int totalRow, string search1,string search2,string search3)
+        {
+            connection();
+            List<Student> studentlist = new List<Student>();
+
+            SqlCommand cmd = new SqlCommand("StudentList", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PageNo", pageNo);
+            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+            cmd.Parameters.AddWithValue("@search1", search1);
+
+            cmd.Parameters.AddWithValue("@search2", search2);
+
+            cmd.Parameters.AddWithValue("@search3", search3);
+            cmd.Parameters.Add("@TotalRows", SqlDbType.Int).Direction = ParameterDirection.Output;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            sd.Fill(dt);
+
+            totalRow = (int)cmd.Parameters["@TotalRows"].Value;
+            con.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                studentlist.Add(new Student
+                {
+                    Id = Convert.ToInt32(dr["Id"]),
+                    NickName = dr["Nickname"].ToString(),
+                    Email = dr["Email"].ToString(),
+
+                    Mobile = dr["Mobile"].ToString(),
+                    Name = dr["Name"].ToString(),
+
+
+                });
+
+            }
+            return studentlist;
+        }
+
+        public List<string> GetClassCate()
+        {
+            connection();
+            List<string> classCate = new List<string>();
+            SqlCommand cmd = new SqlCommand("ClassCate", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            sd.Fill(dt);
+            con.Close();
+            foreach(DataRow dr in dt.Rows )
+            {
+                classCate.Add(dr["ClassCate"].ToString());
+            }
+            return classCate;
+        }
+        public List<string> GetClassName()
+        {
+            connection();
+            List<string> className = new List<string>();
+            SqlCommand cmd = new SqlCommand("ClassName", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            sd.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                className.Add(dr["ClassName"].ToString());
+            }
+            return className;
+        }
+        public List<Teacher> TeacherList(int pageNo, int pageSize, out int totalRow)
+        {
+            connection();
+            List<Teacher> teacherlist = new List<Teacher>();
+
+            SqlCommand cmd = new SqlCommand("TeacherList", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PageNo", pageNo);
+            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+            cmd.Parameters.Add("@TotalRows", SqlDbType.Int).Direction = ParameterDirection.Output;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            sd.Fill(dt);
+
+            totalRow = (int)cmd.Parameters["@TotalRows"].Value;
+            con.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                teacherlist.Add(new Teacher
+                {
+                    Id = Convert.ToInt32(dr["Id"]),
+                    NickName = dr["Nickname"].ToString(),
+                    Email = dr["Email"].ToString(),
+
+                    Mobile = dr["Mobile"].ToString(),
+                    Name = dr["Name"].ToString()
+                    
+                });
+
+            }
+            return teacherlist;
+        }
+
 
     }
 }

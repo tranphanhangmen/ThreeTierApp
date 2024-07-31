@@ -19,6 +19,6 @@ namespace BussinessObject
 
     public class StudySubject : WorkItem
     {
-        public List<ClassName> ClassNames { get; set; }
+        public List<Class> ClassNames { get; set; }
     }
 }
